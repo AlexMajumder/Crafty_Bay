@@ -1,14 +1,21 @@
+import 'package:crafty_bay/app/app_color.dart';
+import 'package:crafty_bay/app/app_theme_data.dart';
+import 'package:crafty_bay/features/auth/ui/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
-class CraftyBayApp extends StatefulWidget {
-  const CraftyBayApp({super.key});
+class CraftyBay extends StatelessWidget {
+  const CraftyBay({super.key});
 
-  @override
-  State<CraftyBayApp> createState() => _CraftyBayAppState();
-}
-
-class _CraftyBayAppState extends State<CraftyBayApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: ,)
+    return MaterialApp(
+      initialRoute: SplashScreen.name,
+      theme : AppThemeData.lightThemeData,
+      darkTheme: AppThemeData.darkThemeData,
+      themeMode: ThemeMode.light,
+      routes: <String,WidgetBuilder> {
+        SplashScreen.name : (context) => const SplashScreen(),
+      },
+    );
   }
 }
+
