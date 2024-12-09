@@ -39,6 +39,21 @@ class AppThemeData{
         focusedBorder: OutlineInputBorder(
           borderSide:
           BorderSide(color: AppColors.themeColor, width: 1),),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white,
+          backgroundColor: AppColors.themeColor,
+          fixedSize: const Size.fromWidth(double.maxFinite),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8)
+          ),
+          textStyle: const TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 16
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+        ),
       )
 
     );
