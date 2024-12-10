@@ -54,6 +54,12 @@ class AppThemeData{
           ),
           padding: const EdgeInsets.symmetric(vertical: 12),
         ),
+      ),
+
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.themeColor,
+        )
       )
 
     );
