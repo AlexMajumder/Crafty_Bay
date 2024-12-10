@@ -1,10 +1,9 @@
-import 'dart:async';
 
-import 'package:crafty_bay/app/app_color.dart';
 import 'package:crafty_bay/features/auth/ui/screens/otp_verification_screen.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo_widget.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
   const EmailVerificationScreen({super.key});
@@ -21,6 +20,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
   final TextEditingController _emailTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  RxInt _remainingTime = 20.obs;
 
 
   @override
@@ -87,4 +88,11 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _emailTEController.dispose();
+    super.dispose();
+  }
+
 }

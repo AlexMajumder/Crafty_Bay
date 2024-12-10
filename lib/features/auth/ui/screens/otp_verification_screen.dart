@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:crafty_bay/app/app_color.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
@@ -21,6 +22,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   int _countDown = 20;
   bool _canResend= false;
   bool _isButtonActiveAndCountDownTextShow = true;
+
+  RxInt _int = 10.obs;
 
   void _startTimer(){
     _timer = Timer.periodic(const Duration(seconds: 1), (timer){
@@ -49,11 +52,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   }
 
 
-
   @override
   void initState() {
     super.initState();
     _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _otpTEController.dispose();
+    super.dispose();
   }
 
   @override
@@ -138,4 +146,5 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       ),
     );
   }
+
 }
