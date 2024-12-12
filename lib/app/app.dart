@@ -1,7 +1,9 @@
 import 'package:crafty_bay/app/app_theme_data.dart';
+import 'package:crafty_bay/features/auth/ui/screens/complite_profile_screen.dart';
 import 'package:crafty_bay/features/auth/ui/screens/email_verification_screen.dart';
 import 'package:crafty_bay/features/auth/ui/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../features/auth/ui/screens/otp_verification_screen.dart';
 
@@ -10,7 +12,7 @@ class CraftyBay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       initialRoute: SplashScreen.name,
       theme: AppThemeData.lightThemeData,
       darkTheme: AppThemeData.darkThemeData,
@@ -19,8 +21,8 @@ class CraftyBay extends StatelessWidget {
         SplashScreen.name: (context) => const SplashScreen(),
         EmailVerificationScreen.name: (context) =>
             const EmailVerificationScreen(),
-        OtpVerificationScreen.name: (context) =>
-        const OtpVerificationScreen(),
+        OtpVerificationScreen.name: (context) => const OtpVerificationScreen(),
+        CompleteProfile.name: (context) => const CompleteProfile(),
       },
     );
   }

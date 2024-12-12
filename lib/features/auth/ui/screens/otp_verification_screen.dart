@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:crafty_bay/app/app_color.dart';
 import 'package:crafty_bay/app/app_constants.dart';
+import 'package:crafty_bay/features/auth/ui/screens/complite_profile_screen.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -93,7 +94,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                      //if (_formKey.currentState!.validate()) {}
+                      Get.toNamed(CompleteProfile.name);
                     },
                     child: const Text('Next'),
                   ),
