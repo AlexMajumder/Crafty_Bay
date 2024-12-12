@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:crafty_bay/app/app_color.dart';
+import 'package:crafty_bay/app/app_constants.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
@@ -17,43 +19,26 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final TextEditingController _otpTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Timer? _timer;
-  int _countDown = 20;
-  bool _canResend= false;
-  bool _isButtonActiveAndCountDownTextShow = true;
+  RxInt _remainingTime = AppConstants.resendOtpTimeOutInSec.obs;
+  late Timer? _timer;
+  RxBool _enableResendCodeButton = false.obs;
 
-  void _startTimer(){
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer){
-      setState(() {
-        if(_countDown>0){
-          _countDown--;
-        }else{
-          _timer!.cancel();
-          _canResend= true;
-          _isButtonActiveAndCountDownTextShow = false;
-        }
-      });
+  void _startResetCodeTime() {
+    _remainingTime.value = AppConstants.resendOtpTimeOutInSec;
+    _enableResendCodeButton.value = false;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      _remainingTime.value--;
+      if (_remainingTime.value == 0) {
+        timer.cancel();
+        _enableResendCodeButton.value = true;
+      }
     });
   }
-
-  void _resendOtp(){
-    if(_canResend){
-     setState(() {
-       _countDown = 20;
-       _canResend= false;
-       _isButtonActiveAndCountDownTextShow = true;
-     });
-     _startTimer();
-    }
-
-  }
-
-
 
   @override
   void initState() {
     super.initState();
-    _startTimer();
+    _startResetCodeTime();
   }
 
   @override
@@ -115,21 +100,30 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   const SizedBox(
                     height: 24,
                   ),
-                  _isButtonActiveAndCountDownTextShow? RichText(
-                    text:  TextSpan(
-                      text: 'This text will expire in ',
-                      style: const TextStyle(color: Colors.grey),
-                      children: [
-                        TextSpan(
-                            text: '${_countDown.toString()}s',
-                            style: const TextStyle(color: AppColors.themeColor)),
-                      ],
+                  Obx(() => !_enableResendCodeButton.value
+                      ? RichText(
+                          text: TextSpan(
+                            text: 'This text will expire in ',
+                            style: const TextStyle(color: Colors.grey),
+                            children: [
+                              TextSpan(
+                                  text: '${_remainingTime}s',
+                                  style: const TextStyle(
+                                      color: AppColors.themeColor)),
+                            ],
+                          ),
+                        )
+                      : const SizedBox.shrink()),
+                  Obx(
+                    () => TextButton(
+                      onPressed: _enableResendCodeButton.value
+                          ? () {
+                              _startResetCodeTime();
+                            }
+                          : null,
+                      child: const Text('Resend Code'),
                     ),
-                  ): const SizedBox.shrink(),
-                  TextButton(onPressed:!_isButtonActiveAndCountDownTextShow ? (){
-                    _resendOtp();
-                  }: null,
-                    child: const Text('Resend Code'),),
+                  ),
                 ],
               ),
             ),
@@ -137,5 +131,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _otpTEController.dispose();
+    _timer?.cancel();
+    super.dispose();
   }
 }
