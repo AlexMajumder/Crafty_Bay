@@ -1,7 +1,7 @@
-import 'package:crafty_bay/app/assets_path.dart';
+
 import 'package:crafty_bay/features/auth/ui/screens/email_verification_screen.dart';
+import 'package:crafty_bay/features/common/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../widgets/app_logo_widget.dart';
 
@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _moveToNxtScreen() async {
     await Future.delayed(const Duration(seconds: 3));
-    Navigator.pushReplacementNamed(context, EmailVerificationScreen.name);
+    Navigator.pushReplacementNamed(context, MainBottomNavScreen.name);
   }
 
   @override
