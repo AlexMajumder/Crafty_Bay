@@ -1,8 +1,9 @@
+
 import 'package:crafty_bay/app/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../widgets/app_bar_icon_button.dart';
+import '../widgets/home_carousel_slider.dart';
 import '../widgets/product_search_bar.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               const SizedBox(height: 16,),
               ProductSearchBar(searchTEController: _searchBarController ,),
+              const SizedBox(height: 16,),
+              const HomeCarouselSlider(),
             ],
 
           ),
@@ -49,6 +52,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
-
