@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../features/auth/ui/screens/otp_verification_screen.dart';
+import '../features/category/ui/screens/category_list_screen.dart';
 import '../features/common/ui/screens/main_bottom_nav_screen.dart';
 
 class CraftyBay extends StatelessWidget {
@@ -27,6 +28,7 @@ class CraftyBay extends StatelessWidget {
         OtpVerificationScreen.name: (context) => const OtpVerificationScreen(),
         CompleteProfile.name: (context) => const CompleteProfile(),
         MainBottomNavScreen.name: (context) => const MainBottomNavScreen(),
+        CategoryListScreen.name: (context) => const CategoryListScreen(),
       },
     );
   }

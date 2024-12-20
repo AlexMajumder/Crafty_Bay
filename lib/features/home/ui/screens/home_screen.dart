@@ -3,7 +3,7 @@ import 'package:crafty_bay/app/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/app_bar_icon_button.dart';
-import '../widgets/category_item_widget.dart';
+import '../../../common/ui/widgets/category_item_widget.dart';
 import '../widgets/home_carousel_slider.dart';
 import '../widgets/home_section_header.dart';
 import '../widgets/product_item_widget.dart';
