@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import '../features/auth/ui/screens/otp_verification_screen.dart';
 import '../features/category/ui/screens/category_list_screen.dart';
 import '../features/common/ui/screens/main_bottom_nav_screen.dart';
+import '../features/product/ui/screens/product_list_screen.dart';
 
 class CraftyBay extends StatelessWidget {
   const CraftyBay({super.key});
@@ -21,14 +22,33 @@ class CraftyBay extends StatelessWidget {
       theme: AppThemeData.lightThemeData,
       darkTheme: AppThemeData.darkThemeData,
       themeMode: ThemeMode.light,
-      routes: <String, WidgetBuilder>{
-        SplashScreen.name: (context) => const SplashScreen(),
-        EmailVerificationScreen.name: (context) =>
-            const EmailVerificationScreen(),
-        OtpVerificationScreen.name: (context) => const OtpVerificationScreen(),
-        CompleteProfile.name: (context) => const CompleteProfile(),
-        MainBottomNavScreen.name: (context) => const MainBottomNavScreen(),
-        CategoryListScreen.name: (context) => const CategoryListScreen(),
+      onGenerateRoute: (RouteSettings setting) {
+        late Widget widget;
+
+        if (setting.name == SplashScreen.name) {
+          widget = const SplashScreen();
+        } else if (setting.name == EmailVerificationScreen.name) {
+          widget = const EmailVerificationScreen();
+        } else if (setting.name == OtpVerificationScreen.name) {
+          widget = const OtpVerificationScreen();
+        } else if (setting.name == CompleteProfile.name) {
+          widget = const CompleteProfile();
+        } else if (setting.name == MainBottomNavScreen.name) {
+          widget = const MainBottomNavScreen();
+        } else if (setting.name == CategoryListScreen.name) {
+          widget = const CategoryListScreen();
+        } else if (setting.name == ProductListScreen.name) {
+          String categoryName = setting.arguments as String;
+          widget = ProductListScreen(
+            categoryName: categoryName,
+          );
+        }
+
+        return MaterialPageRoute(
+          builder: (ctx) {
+            return widget;
+          },
+        );
       },
     );
   }

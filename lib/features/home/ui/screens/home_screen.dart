@@ -1,12 +1,13 @@
-
 import 'package:crafty_bay/app/assets_path.dart';
+import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import '../widgets/app_bar_icon_button.dart';
 import '../../../common/ui/widgets/category_item_widget.dart';
 import '../widgets/home_carousel_slider.dart';
 import '../widgets/home_section_header.dart';
-import '../widgets/product_item_widget.dart';
+import '../../../common/ui/widgets/product_item_widget.dart';
 import '../widgets/product_search_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -43,7 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               HomeSectionHeader(
                 title: 'Category',
-                onTap: () {},
+                onTap: () {
+                  Get.find<MainBottomNavController>().moveToCategory();
+                },
               ),
               const SizedBox(
                 height: 8,
