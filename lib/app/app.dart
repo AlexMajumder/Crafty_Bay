@@ -3,9 +3,9 @@ import 'package:crafty_bay/app/controller_binder.dart';
 import 'package:crafty_bay/features/auth/ui/screens/complite_profile_screen.dart';
 import 'package:crafty_bay/features/auth/ui/screens/email_verification_screen.dart';
 import 'package:crafty_bay/features/auth/ui/screens/splash_screen.dart';
+import 'package:crafty_bay/features/product/ui/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../features/auth/ui/screens/otp_verification_screen.dart';
 import '../features/category/ui/screens/category_list_screen.dart';
 import '../features/common/ui/screens/main_bottom_nav_screen.dart';
@@ -41,6 +41,11 @@ class CraftyBay extends StatelessWidget {
           String categoryName = setting.arguments as String;
           widget = ProductListScreen(
             categoryName: categoryName,
+          );
+        }else if (setting.name == ProductDetailsScreen.name) {
+          int productId = setting.arguments as int;
+          widget = ProductDetailsScreen(
+            productId: productId,
           );
         }
 
