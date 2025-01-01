@@ -15,8 +15,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Product Details'),),
-      body: Column(
+      appBar: AppBar(title: const Text('Product Details screen'),),
+      body: const Column(
         children: [
           ProductImageCarouselSlider(),
 
