@@ -16,10 +16,10 @@ class _ProductImageCarouselSliderState extends State<ProductImageCarouselSlider>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
         CarouselSlider(
-          options: CarouselOptions(height: 180.0,viewportFraction: 0.95,onPageChanged:(currentIndex, reason){
+          options: CarouselOptions(height: 220.0,viewportFraction: 0.95,onPageChanged:(currentIndex, reason){
             _selectedIndex.value = currentIndex;
           } ),
           items: [1,2,3,4,5].map((i) {
@@ -27,10 +27,8 @@ class _ProductImageCarouselSliderState extends State<ProductImageCarouselSlider>
               builder: (BuildContext context) {
                 return Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 2.0),
-                    decoration: BoxDecoration(
-                      color: AppColors.themeColor,
-                      borderRadius: BorderRadius.circular(8),
+                    decoration: const BoxDecoration(
+                      color: Colors.black12,
                     ),
                     alignment: Alignment.center,
                     child: Text('text $i', style: const TextStyle(fontSize: 16.0),)
@@ -39,27 +37,31 @@ class _ProductImageCarouselSliderState extends State<ProductImageCarouselSlider>
             );
           }).toList(),
         ),
-        const SizedBox(height: 8,),
-        ValueListenableBuilder(
-          valueListenable: _selectedIndex,
-          builder: (context,value,_) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for(int i = 0; i<5; i++)
-                  Container(
-                    height: 16,
-                    width: 16,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      color: value == i ? AppColors.themeColor : Colors.transparent,
-                      border: Border.all(color: Colors.grey.shade300),
-                      borderRadius: BorderRadius.circular(20)
+        Positioned(
+          bottom: 8,
+          left: 0,
+          right: 0,
+          child: ValueListenableBuilder(
+            valueListenable: _selectedIndex,
+            builder: (context,value,_) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for(int i = 0; i<5; i++)
+                    Container(
+                      height: 16,
+                      width: 16,
+                      margin: const EdgeInsets.symmetric(horizontal: 2),
+                      decoration: BoxDecoration(
+                        color: value == i ? AppColors.themeColor : Colors.white,
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(20)
+                      ),
                     ),
-                  ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         )
       ],
     );

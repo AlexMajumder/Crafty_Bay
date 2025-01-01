@@ -24,7 +24,6 @@ class CraftyBay extends StatelessWidget {
       themeMode: ThemeMode.light,
       onGenerateRoute: (RouteSettings setting) {
         late Widget widget;
-
         if (setting.name == SplashScreen.name) {
           widget = const SplashScreen();
         } else if (setting.name == EmailVerificationScreen.name) {
