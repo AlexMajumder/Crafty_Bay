@@ -27,125 +27,132 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       body: Column(
         children: [
           Expanded(
-              child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const ProductImageCarouselSlider(),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 8,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              spacing: 8,
-                              children: [
-                                Text(
-                                  'Samsung S24 Ultra, Yes Its right choice for you',
-                                  style: textTheme.titleMedium,
-                                ),
-                                Row(
-                                  children: [
-                                    const Wrap(
-                                      children: [
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 18,
-                                        ),
-                                        SizedBox(
-                                          width: 4,
-                                        ),
-                                        Text(
-                                          '4.5',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.grey),
-                                        ),
-                                      ],
-                                    ),
-                                    TextButton(
-                                        onPressed: () {},
-                                        child: const Text('Reviews')),
-                                    Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          color: AppColors.themeColor,
-                                        ),
-                                        padding: const EdgeInsets.all(4),
-                                        child: const Icon(
-                                          Icons.favorite_border,
-                                          size: 14,
-                                          color: Colors.white,
-                                        )),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          ProductQuantityIncDecButton(
-                            onChange: (int value) {},
-                          ),
-                        ],
-                      ),
-                      Text(
-                        'Color',
-                        style: textTheme.titleMedium,
-                      ),
-                      ColorPickerWidget(
-                        colors: const ['Red', 'Green', 'Yellow', 'Blue', 'pink'],
-                        onColorSelected: (String selectedColor) {},
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Size',
-                        style: textTheme.titleMedium,
-                      ),
-                      SizePickerWidget(
-                        sizes: const ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
-                        onSizeSelected: (String selectedColor) {},
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Description',
-                        style: textTheme.titleMedium,
-                      ),
-                      const Text(
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400, color: Colors.grey),
-                      ),
-                    ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const ProductImageCarouselSlider(),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildProductHeader(textTheme),
+                        _buildColorPicker(textTheme),
+                        const SizedBox(height: 8),
+                        _buildSizePicker(textTheme),
+                        const SizedBox(height: 8),
+                        _buildDescription(textTheme),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          )),
-          _buildPriceAndAddToCardSection(textTheme)
+          ),
+          _buildPriceAndAddToCartSection(textTheme),
         ],
       ),
     );
   }
 
-  Widget _buildPriceAndAddToCardSection(TextTheme textTheme) {
+  Widget _buildProductHeader(TextTheme textTheme) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Samsung S24 Ultra, Yes Its right choice for you',
+                style: textTheme.titleMedium,
+              ),
+              Row(
+                children: [
+                  const Icon(Icons.star, color: Colors.amber, size: 18),
+                  const SizedBox(width: 4),
+                  const Text('4.5',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600, color: Colors.grey)),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text('Reviews'),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: AppColors.themeColor,
+                    ),
+                    padding: const EdgeInsets.all(4),
+                    child: const Icon(
+                      Icons.favorite_border,
+                      size: 14,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        ProductQuantityIncDecButton(
+          onChange: (int value) {},
+        ),
+      ],
+    );
+  }
+
+  Widget _buildColorPicker(TextTheme textTheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Color', style: textTheme.titleMedium),
+        ColorPickerWidget(
+          colors: const ['Red', 'Green', 'Yellow', 'Blue', 'Pink'],
+          onColorSelected: (String selectedColor) {},
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSizePicker(TextTheme textTheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Size', style: textTheme.titleMedium),
+        SizePickerWidget(
+          sizes: const ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
+          onSizeSelected: (String selectedSize) {},
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDescription(TextTheme textTheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Description', style: textTheme.titleMedium),
+        const Text(
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...",
+          style: TextStyle(
+              fontWeight: FontWeight.w400, color: Colors.grey),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPriceAndAddToCartSection(TextTheme textTheme) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration:
-          BoxDecoration(color: AppColors.themeColor.withValues(alpha: .2)),
+      decoration: BoxDecoration(
+        color: AppColors.themeColor.withValues(alpha: .2),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Price', style: textTheme.titleSmall),
               const Text(
@@ -154,18 +161,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     color: AppColors.themeColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 18),
-              )
+              ),
             ],
           ),
           SizedBox(
             width: 120,
             child: ElevatedButton(
               onPressed: () {},
-              child: const Text(
-                'Add to Card',
-              ),
+              child: const Text('Add to Cart'),
             ),
-          )
+          ),
         ],
       ),
     );
