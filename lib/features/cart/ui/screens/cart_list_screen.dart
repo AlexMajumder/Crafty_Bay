@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../app/app_color.dart';
 import '../../../common/ui/controllers/main_bottom_nav_controller.dart';
+import '../widgets/cart_product_item_widgets.dart';
+
 class CartListScreen extends StatefulWidget {
   const CartListScreen({super.key});
 
@@ -10,33 +12,39 @@ class CartListScreen extends StatefulWidget {
 }
 
 class _CartListScreenState extends State<CartListScreen> {
-
   @override
   Widget build(BuildContext context) {
-
     final textTheme = Theme.of(context).textTheme;
 
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (_,__) => _onPop(),
+      onPopInvokedWithResult: (_, __) => _onPop(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Cart'),
-          leading: IconButton(onPressed: _onPop,
-              icon: const Icon(Icons.arrow_back_ios)),
-        ),body: Column(
-        children: [
-          Expanded(child: SizedBox()),
-          _buildPriceAndAddToCartSection(textTheme)
-        ],
-      ),
+          leading: IconButton(
+              onPressed: _onPop, icon: const Icon(Icons.arrow_back_ios)),
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return const CartProductWidget();
+                },
+              ),
+            ),
+            _buildPriceAndCheckOutSection(textTheme)
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildPriceAndAddToCartSection(TextTheme textTheme) {
+  Widget _buildPriceAndCheckOutSection(TextTheme textTheme) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: AppColors.themeColor.withValues(alpha: .2),
       ),
@@ -46,9 +54,9 @@ class _CartListScreenState extends State<CartListScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Price', style: textTheme.titleSmall),
+              Text('Total Price', style: textTheme.titleSmall),
               const Text(
-                '\$100',
+                '\$5879',
                 style: TextStyle(
                     color: AppColors.themeColor,
                     fontWeight: FontWeight.w600,
@@ -60,7 +68,7 @@ class _CartListScreenState extends State<CartListScreen> {
             width: 120,
             child: ElevatedButton(
               onPressed: () {},
-              child: const Text('Add to Cart'),
+              child: const Text('Chock Out'),
             ),
           ),
         ],
@@ -68,8 +76,7 @@ class _CartListScreenState extends State<CartListScreen> {
     );
   }
 
-  void _onPop(){
+  void _onPop() {
     Get.find<MainBottomNavController>().backToHome();
   }
-
 }
