@@ -1,6 +1,4 @@
-import 'dart:async';
 
-import 'package:crafty_bay/app/app_color.dart';
 import 'package:crafty_bay/features/auth/ui/screens/otp_verification_screen.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo_widget.dart';
 import 'package:email_validator/email_validator.dart';

@@ -3,7 +3,10 @@ import 'package:crafty_bay/features/product/ui/widgets/color_picker_widget.dart'
 import 'package:crafty_bay/features/product/ui/widgets/product_image_carousel_slider.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_quantity_inc_dec_button.dart';
 import 'package:crafty_bay/features/product/ui/widgets/size_picker_widget.dart';
+import 'package:crafty_bay/features/review/ui/screens/review_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.productId});
@@ -23,6 +26,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Details'),
+        leading: IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back_ios)),
       ),
       body: Column(
         children: [
@@ -75,7 +79,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       style: TextStyle(
                           fontWeight: FontWeight.w600, color: Colors.grey)),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(ReviewScreen.name,arguments: 1);
+                    },
                     child: const Text('Reviews'),
                   ),
                   Container(
