@@ -20,6 +20,7 @@ class CraftyBay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: SplashScreen.name,
       initialBinding: ControllerBinder(),
       theme: AppThemeData.lightThemeData,
@@ -32,9 +33,10 @@ class CraftyBay extends StatelessWidget {
         } else if (setting.name == EmailVerificationScreen.name) {
           widget = const EmailVerificationScreen();
         } else if (setting.name == OtpVerificationScreen.name) {
-          widget = const OtpVerificationScreen();
-        } else if (setting.name == CompleteProfile.name) {
-          widget = const CompleteProfile();
+          String email = setting.arguments as String;
+          widget = OtpVerificationScreen(email: email,);
+        } else if (setting.name == CompleteProfileScreen.name) {
+          widget = const CompleteProfileScreen();
         } else if (setting.name == MainBottomNavScreen.name) {
           widget = const MainBottomNavScreen();
         } else if (setting.name == CategoryListScreen.name) {

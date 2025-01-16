@@ -1,16 +1,16 @@
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo_widget.dart';
 import 'package:flutter/material.dart';
 
-class CompleteProfile extends StatefulWidget {
-  const CompleteProfile({super.key});
+class CompleteProfileScreen extends StatefulWidget {
+  const CompleteProfileScreen({super.key});
 
   static const name = '/complete-profile';
 
   @override
-  State<CompleteProfile> createState() => _CompleteProfileState();
+  State<CompleteProfileScreen> createState() => _CompleteProfileScreenState();
 }
 
-class _CompleteProfileState extends State<CompleteProfile> {
+class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   final TextEditingController _firstNameTEController = TextEditingController();
   final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _mobileTEController = TextEditingController();

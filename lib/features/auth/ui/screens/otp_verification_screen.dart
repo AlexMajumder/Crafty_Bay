@@ -1,16 +1,20 @@
 import 'dart:async';
 import 'package:crafty_bay/app/app_color.dart';
 import 'package:crafty_bay/app/app_constants.dart';
+import 'package:crafty_bay/features/auth/ui/controller/email_otp_controller.dart';
 import 'package:crafty_bay/features/auth/ui/screens/complite_profile_screen.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo_widget.dart';
+import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/features/common/ui/widgets/snack_bar_message.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
-  const OtpVerificationScreen({super.key});
+  const OtpVerificationScreen({super.key, required this.email});
 
   static const name = '/otp-verification';
+  final String email;
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -19,6 +23,7 @@ class OtpVerificationScreen extends StatefulWidget {
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final TextEditingController _otpTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final OtpVerificationController _otpVerificationController = Get.find<OtpVerificationController>();
 
   RxInt _remainingTime = AppConstants.resendOtpTimeOutInSec.obs;
   late Timer? _timer;
@@ -78,9 +83,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     obscureText: false,
                     animationType: AnimationType.fade,
                     animationDuration:
-                        Duration(milliseconds: 300), // Pass it here
+                        const Duration(milliseconds: 300), // Pass it here
                     appContext: context,
                     controller: _otpTEController,
+                    validator:(String? value){
+                      if(value?.length != 6){
+                        return 'Enter Your Otp';
+                      }
+                      return null;
+                    },
                     keyboardType: TextInputType.number,
                     pinTheme: PinTheme(
                       shape: PinCodeFieldShape.box,
@@ -92,12 +103,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   const SizedBox(
                     height: 16,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      //if (_formKey.currentState!.validate()) {}
-                      Get.toNamed(CompleteProfile.name);
-                    },
-                    child: const Text('Next'),
+                  GetBuilder<OtpVerificationController>(
+                    builder: (controller) {
+                      if(controller.inProgress){
+                        return const CenteredCircularProgressIndicator();
+                      }
+                      return ElevatedButton(
+                        onPressed: _onTapNextButton,
+                        child: const Text('Next'),
+                      );
+                    }
                   ),
                   const SizedBox(
                     height: 24,
@@ -133,6 +148,25 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _onTapNextButton() async{
+    if (_formKey.currentState!.validate()) {
+
+      final bool response = await _otpVerificationController.verifyOtp(widget.email, _otpTEController.text.trim());
+
+      if(response) {
+        if(mounted) {
+          Navigator.pushNamed(context, CompleteProfileScreen.name);
+        }
+      }else{
+        if(mounted) {
+          ShowSnackBarMessage(
+              context, _otpVerificationController.errorMessage!, true);
+        }
+      }
+    }
+
   }
 
   @override

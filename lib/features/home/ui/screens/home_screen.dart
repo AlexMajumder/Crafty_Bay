@@ -1,5 +1,6 @@
 import 'package:crafty_bay/app/assets_path.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_controller.dart';
+import 'package:crafty_bay/features/home/ui/controllers/home_banner_list_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchBarController = TextEditingController();
+  final HomeBannerListController _homeBannerListController = Get.find<HomeBannerListController>();
 
   @override
   Widget build(BuildContext context) {

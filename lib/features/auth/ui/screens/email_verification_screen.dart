@@ -103,7 +103,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       bool isSuccess = await _emailVerificationController.verifyEmail(_emailTEController.text.trim());
       //if (!mounted) return;
       if(isSuccess){
-        Get.toNamed(OtpVerificationScreen.name);
+        Get.toNamed(OtpVerificationScreen.name,arguments: _emailTEController.text.trim());
       }else{
         if(mounted) {
           ShowSnackBarMessage(
