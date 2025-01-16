@@ -1,6 +1,11 @@
 import 'package:crafty_bay/app/assets_path.dart';
+import 'package:crafty_bay/features/common/data/models/category_model.dart';
+import 'package:crafty_bay/features/common/ui/controllers/category_list_controller.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_controller.dart';
+import 'package:crafty_bay/features/common/ui/widgets/category_item_widget_simmer.dart';
+import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/features/home/ui/controllers/home_banner_list_controller.dart';
+import 'package:crafty_bay/features/home/ui/widgets/home_carousel_slider_simmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -20,7 +25,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchBarController = TextEditingController();
-  final HomeBannerListController _homeBannerListController = Get.find<HomeBannerListController>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +44,17 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 16,
               ),
-              const HomeCarouselSlider(),
+              GetBuilder<HomeBannerListController>(builder: (controller) {
+                if (controller.inProgress) {
+                  return const SizedBox(
+                    height: 180,
+                    child: HomeCarouselSliderSimmer(),
+                  );
+                }
+                return HomeCarouselSlider(
+                  bannerList: controller.bannerList,
+                );
+              }),
               const SizedBox(
                 height: 16,
               ),
@@ -53,13 +67,24 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 8,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  spacing: 16,
-                  children: _getCategoryList(),
-                ),
-              ),
+              GetBuilder<CategoryListController>(builder: (controller) {
+                if (controller.inProgress) {
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      spacing: 16,
+                      children: _getProductListSimmer(),
+                    ),
+                  );
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    spacing: 16,
+                    children: _getCategoryList(controller.categoryList),
+                  ),
+                );
+              }),
               const SizedBox(
                 height: 8,
               ),
@@ -118,12 +143,22 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  List<Widget> _getCategoryList() {
+  List<Widget> _getCategoryList(List<CategoryModel> categoryModels) {
     List<Widget> categoryList = [];
-    for (int i = 0; i < 10; i++) {
-      categoryList.add(const CategoryItemWidget());
+    for (int i = 0; i < categoryModels.length; i++) {
+      categoryList.add(CategoryItemWidget(
+        categoryModel: categoryModels[i],
+      ));
     }
     return categoryList;
+  }
+
+  List<Widget> _getProductListSimmer() {
+    List<Widget> productList = [];
+    for (int i = 0; i < 10; i++) {
+      productList.add(const CategoryItemWidgetSimmer());
+    }
+    return productList;
   }
 
   List<Widget> _getProductList() {
