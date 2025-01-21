@@ -1,10 +1,13 @@
 import 'package:crafty_bay/app/assets_path.dart';
 import 'package:crafty_bay/features/common/data/models/category_model.dart';
+import 'package:crafty_bay/features/common/data/models/product_model.dart';
 import 'package:crafty_bay/features/common/ui/controllers/category_list_controller.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/features/common/ui/widgets/category_item_widget_simmer.dart';
-import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/features/home/ui/controllers/home_banner_list_controller.dart';
+import 'package:crafty_bay/features/home/ui/controllers/new_product_list_controller.dart';
+import 'package:crafty_bay/features/home/ui/controllers/popular_product_list_controller.dart';
+import 'package:crafty_bay/features/home/ui/controllers/special_product_list_controller.dart';
 import 'package:crafty_bay/features/home/ui/widgets/home_carousel_slider_simmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -95,12 +98,25 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 8,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  spacing: 16,
-                  children: _getProductList(),
-                ),
+              GetBuilder<PopularProductListController>(
+                builder: (controller) {
+                  if(controller.inProgress){
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        spacing: 16,
+                        children: _getProductListSimmer(),
+                      ),
+                    );
+                  }
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      spacing: 16,
+                      children: _getProductList(controller.productList),
+                    ),
+                  );
+                }
               ),
               const SizedBox(
                 height: 8,
@@ -112,12 +128,25 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 8,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  spacing: 16,
-                  children: _getProductList(),
-                ),
+              GetBuilder<SpecialProductListController>(
+                builder: (controller) {
+                  if(controller.inProgress){
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        spacing: 16,
+                        children: _getProductListSimmer(),
+                      ),
+                    );
+                  }
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      spacing: 16,
+                      children: _getProductList(controller.productList),
+                    ),
+                  );
+                }
               ),
               const SizedBox(
                 height: 8,
@@ -129,12 +158,25 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 8,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  spacing: 16,
-                  children: _getProductList(),
-                ),
+              GetBuilder<NewProductListController>(
+                builder: (controller) {
+                  if(controller.inProgress){
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        spacing: 16,
+                        children: _getProductListSimmer(),
+                      ),
+                    );
+                  }
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      spacing: 16,
+                      children: _getProductList(controller.productList),
+                    ),
+                  );
+                }
               ),
             ],
           ),
@@ -155,18 +197,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> _getProductListSimmer() {
     List<Widget> productList = [];
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 5; i++) {
       productList.add(const CategoryItemWidgetSimmer());
     }
     return productList;
   }
 
-  List<Widget> _getProductList() {
-    List<Widget> productList = [];
-    for (int i = 0; i < 10; i++) {
-      productList.add(const ProductItemWidget());
+  List<Widget> _getProductList(List<ProductModel> productList) {
+    List<Widget> list = [];
+    for (int i = 0; i < productList.length; i++) {
+      list.add( ProductItemWidget(
+        productModel: productList[i],
+      ));
     }
-    return productList;
+    return list;
   }
 
   AppBar _buildAppBar() {

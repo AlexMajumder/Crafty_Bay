@@ -4,7 +4,7 @@ import 'package:crafty_bay/services/network_caller/network_caller.dart';
 import 'package:get/get.dart';
 import '../../../common/data/models/product_model.dart';
 
-class ProductListController extends GetxController {
+class PopularProductListController extends GetxController {
   bool _inProgress = false;
 
   bool get inProgress => _inProgress;
@@ -17,14 +17,14 @@ class ProductListController extends GetxController {
 
   String? get errorMessage => _errorMessage;
 
-  Future<bool> getHomeBannerList() async {
+  Future<bool> getProductList() async {
     bool isSuccess = false;
 
     _inProgress = true;
     update();
 
     NetworkResponse response =
-        await Get.find<NetworkCaller>().getRequest(Urls.bannerListUrl);
+        await Get.find<NetworkCaller>().getRequest(Urls.productListByRemarkUrl('Popular'));
 
     if (response.isSuccess) {
       _productListModel = ProductListModel.fromJson(response.responseData);
