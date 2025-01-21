@@ -2,7 +2,6 @@ import 'package:crafty_bay/features/common/data/models/category_model.dart';
 import 'package:crafty_bay/features/product/ui/screens/product_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../app/app_color.dart';
 
 class CategoryItemWidget extends StatelessWidget {
@@ -15,7 +14,10 @@ class CategoryItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.offNamed(ProductListScreen.name, arguments: 'computer');
+        Get.toNamed(ProductListScreen.name, arguments: {
+          'categoryName':categoryModel.categoryName ?? '',
+          'categoryId':categoryModel.id!
+        });
       },
       child: Column(
         spacing: 8,
