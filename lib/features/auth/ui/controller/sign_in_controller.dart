@@ -1,7 +1,8 @@
 import 'package:crafty_bay/app/urls.dart';
 import 'package:crafty_bay/services/network_caller/network_caller.dart';
 import 'package:get/get.dart';
-class EmailVerificationController extends GetxController{
+
+class SignInController extends GetxController{
 
   bool _inProgress = false;
   bool get inProgress => _inProgress;
@@ -9,12 +10,17 @@ class EmailVerificationController extends GetxController{
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  Future<bool> verifyEmail(String email) async{
+  Future<bool> signIn(String email,String password) async{
     bool isSuccess = false;
     _inProgress = true;
     update();
 
-    final NetworkResponse response = await Get.find<NetworkCaller>().getRequest(Urls.verifyEmailUrl(email));
+    final requestParams ={
+      "email":email,
+      "password":password
+    };
+
+    final NetworkResponse response = await Get.find<NetworkCaller>().postRequest(Urls.signInUrl, body: requestParams);
 
     if (response.isSuccess){
       _errorMessage = null;
