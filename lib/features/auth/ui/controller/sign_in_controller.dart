@@ -1,4 +1,5 @@
 import 'package:crafty_bay/app/urls.dart';
+import 'package:crafty_bay/features/auth/data/models/sign_in_model.dart';
 import 'package:crafty_bay/services/network_caller/network_caller.dart';
 import 'package:get/get.dart';
 
@@ -23,6 +24,7 @@ class SignInController extends GetxController{
     final NetworkResponse response = await Get.find<NetworkCaller>().postRequest(Urls.signInUrl, body: requestParams);
 
     if (response.isSuccess){
+      SignInModel signInModel = SignInModel.fromJson(response.responseData);
       _errorMessage = null;
       isSuccess = true;
     }else{
