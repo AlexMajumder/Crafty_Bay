@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 
 import '../features/auth/ui/controller/otp_verification_controller.dart';
 import '../features/auth/ui/controller/read_profile_controller.dart';
+import '../features/auth/ui/controller/sign_up_controller.dart';
 import '../features/common/ui/controllers/auth_controller.dart';
 
 class ControllerBinder extends Bindings{
@@ -19,6 +20,7 @@ class ControllerBinder extends Bindings{
   void dependencies() {
    Get.put(MainBottomNavController());
    Get.put(AuthController());
+   Get.put(SignUpController());
    Get.put(NetworkCaller());
    Get.put(SignInController());
    Get.put(OtpVerificationController());

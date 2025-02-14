@@ -1,6 +1,6 @@
 import 'package:crafty_bay/features/auth/ui/controller/sign_in_controller.dart';
-import 'package:crafty_bay/features/auth/ui/screens/otp_verification_screen.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo_widget.dart';
+import 'package:crafty_bay/features/common/ui/screens/main_bottom_nav_screen.dart';
 import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/features/common/ui/widgets/snack_bar_message.dart';
 import 'package:email_validator/email_validator.dart';
@@ -114,7 +114,7 @@ class _SignInScreenState extends State<SignInScreen> {
           _emailTEController.text.trim(), _passwordTEController.text);
       //if (!mounted) return;
       if (isSuccess) {
-        Get.toNamed(OtpVerificationScreen.name,
+        Get.toNamed(MainBottomNavScreen.name,
             arguments: _emailTEController.text.trim());
       } else {
         if (mounted) {

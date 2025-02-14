@@ -1,11 +1,12 @@
 import 'package:crafty_bay/app/urls.dart';
 import 'package:crafty_bay/features/auth/data/models/sign_in_model.dart';
+import 'package:crafty_bay/features/auth/data/models/sign_up_params.dart';
 import 'package:crafty_bay/services/network_caller/network_caller.dart';
 import 'package:get/get.dart';
 
 import '../../../common/ui/controllers/auth_controller.dart';
 
-class SignInController extends GetxController{
+class SignUpController extends GetxController{
 
   bool _inProgress = false;
   bool get inProgress => _inProgress;
@@ -13,17 +14,12 @@ class SignInController extends GetxController{
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  Future<bool> signIn(String email,String password) async{
+  Future<bool> signUp(SignUpParams params) async{
     bool isSuccess = false;
     _inProgress = true;
     update();
 
-    final requestParams ={
-      "email":email,
-      "password":password
-    };
-
-    final NetworkResponse response = await Get.find<NetworkCaller>().postRequest(Urls.signInUrl, body: requestParams);
+    final NetworkResponse response = await Get.find<NetworkCaller>().postRequest(Urls.signUpUrl, body:params.toJson());
 
     if (response.isSuccess){
       SignInModel signInModel = SignInModel.fromJson(response.responseData);

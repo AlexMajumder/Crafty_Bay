@@ -2,8 +2,7 @@ import 'dart:async';
 import 'package:crafty_bay/app/app_color.dart';
 import 'package:crafty_bay/app/app_constants.dart';
 import 'package:crafty_bay/features/auth/ui/controller/otp_verification_controller.dart';
-import 'package:crafty_bay/features/auth/ui/controller/read_profile_controller.dart';
-import 'package:crafty_bay/features/auth/ui/screens/complite_profile_screen.dart';
+import 'package:crafty_bay/features/auth/ui/screens/sign_up_screen.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo_widget.dart';
 import 'package:crafty_bay/features/common/ui/screens/main_bottom_nav_screen.dart';
 import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
@@ -26,7 +25,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final TextEditingController _otpTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final OtpVerificationController _otpVerificationController = Get.find<OtpVerificationController>();
-  final ReadProfileController _readProfileController = Get.find<ReadProfileController>();
 
   final RxInt _remainingTime = AppConstants.resendOtpTimeOutInSec.obs;
   late Timer? _timer;
@@ -161,7 +159,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       if(response) {
         if(_otpVerificationController.shouldNavigateToCompleteProfile) {
           if (mounted) {
-            Navigator.pushNamed(context, CompleteProfileScreen.name);
+            Navigator.pushNamed(context, SignUpScreen.name);
           }
         }else{
           if (mounted) {
