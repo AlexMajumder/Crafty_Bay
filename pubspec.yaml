@@ -24,6 +24,7 @@ dependencies:
   http: ^1.2.2
   logger: ^2.5.0
   shimmer: ^3.0.0
+  shared_preferences: ^2.5.2
 
 dev_dependencies:
   flutter_test:

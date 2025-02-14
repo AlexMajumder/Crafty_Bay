@@ -19,12 +19,19 @@ class NetworkResponse {
 class NetworkCaller {
   final Logger _logger = Logger();
 
-  Future<NetworkResponse> getRequest(String url) async {
+  Future<NetworkResponse> getRequest(String url,{String? accessToken }) async {
     try {
       Uri uri = Uri.parse(url);
       _logRequest(url);
+      Map<String,String> headers ={
+        'content-type' :'application/json'
+      };
 
-      Response response = await get(uri);
+      if(accessToken != null){
+        headers['token'] = accessToken;
+      }
+
+      Response response = await get(uri,headers: headers);
 
       _logResponse(url, response.statusCode, response.headers, response.body);
 

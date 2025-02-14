@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:crafty_bay/app/app_color.dart';
 import 'package:crafty_bay/app/app_constants.dart';
-import 'package:crafty_bay/features/auth/ui/controller/email_otp_controller.dart';
+import 'package:crafty_bay/features/auth/ui/controller/otp_verification_controller.dart';
+import 'package:crafty_bay/features/auth/ui/controller/read_profile_controller.dart';
 import 'package:crafty_bay/features/auth/ui/screens/complite_profile_screen.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo_widget.dart';
+import 'package:crafty_bay/features/common/ui/screens/main_bottom_nav_screen.dart';
 import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/features/common/ui/widgets/snack_bar_message.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +26,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final TextEditingController _otpTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final OtpVerificationController _otpVerificationController = Get.find<OtpVerificationController>();
+  final ReadProfileController _readProfileController = Get.find<ReadProfileController>();
 
-  RxInt _remainingTime = AppConstants.resendOtpTimeOutInSec.obs;
+  final RxInt _remainingTime = AppConstants.resendOtpTimeOutInSec.obs;
   late Timer? _timer;
-  RxBool _enableResendCodeButton = false.obs;
+  final RxBool _enableResendCodeButton = false.obs;
 
   void _startResetCodeTime() {
     _remainingTime.value = AppConstants.resendOtpTimeOutInSec;
@@ -156,8 +159,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       final bool response = await _otpVerificationController.verifyOtp(widget.email, _otpTEController.text.trim());
 
       if(response) {
-        if(mounted) {
-          Navigator.pushNamed(context, CompleteProfileScreen.name);
+        if(_otpVerificationController.shouldNavigateToCompleteProfile) {
+          if (mounted) {
+            Navigator.pushNamed(context, CompleteProfileScreen.name);
+          }
+        }else{
+          if (mounted) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, MainBottomNavScreen.name, (predicate) => false);
+          }
         }
       }else{
         if(mounted) {
