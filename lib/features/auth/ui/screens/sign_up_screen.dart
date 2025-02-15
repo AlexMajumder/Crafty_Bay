@@ -175,6 +175,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> _signUp() async{
+    FocusScope.of(context).unfocus();
     SignUpParams params = SignUpParams(
         email: _emailTEController.text.trim(),
         firstName: _firstNameTEController.text.trim(),

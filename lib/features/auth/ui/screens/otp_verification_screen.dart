@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:crafty_bay/app/app_color.dart';
 import 'package:crafty_bay/app/app_constants.dart';
 import 'package:crafty_bay/features/auth/ui/controller/otp_verification_controller.dart';
-import 'package:crafty_bay/features/auth/ui/screens/sign_up_screen.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo_widget.dart';
 import 'package:crafty_bay/features/common/ui/screens/main_bottom_nav_screen.dart';
 import 'package:crafty_bay/features/common/ui/widgets/centered_circular_progress_indicator.dart';
@@ -20,7 +19,7 @@ class OtpVerificationScreen extends StatefulWidget {
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
 }
-
+//26 min
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   final TextEditingController _otpTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -80,7 +79,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     height: 24,
                   ),
                   PinCodeTextField(
-                    length: 6,
+                    length: 4,
                     obscureText: false,
                     animationType: AnimationType.fade,
                     animationDuration:
@@ -88,7 +87,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     appContext: context,
                     controller: _otpTEController,
                     validator:(String? value){
-                      if(value?.length != 6){
+                      if(value?.length != 4){
                         return 'Enter Your Otp';
                       }
                       return null;
@@ -153,20 +152,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   Future<void> _onTapNextButton() async{
     if (_formKey.currentState!.validate()) {
-
+      FocusScope.of(context).unfocus();
       final bool response = await _otpVerificationController.verifyOtp(widget.email, _otpTEController.text.trim());
-
       if(response) {
-        if(_otpVerificationController.shouldNavigateToCompleteProfile) {
-          if (mounted) {
-            Navigator.pushNamed(context, SignUpScreen.name);
-          }
-        }else{
           if (mounted) {
             Navigator.pushNamedAndRemoveUntil(
                 context, MainBottomNavScreen.name, (predicate) => false);
           }
-        }
       }else{
         if(mounted) {
           ShowSnackBarMessage(
