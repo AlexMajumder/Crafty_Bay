@@ -3,13 +3,12 @@ import 'package:crafty_bay/features/category/ui/screens/category_list_screen.dar
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/features/home/ui/controllers/new_product_list_controller.dart';
 import 'package:crafty_bay/features/home/ui/controllers/popular_product_list_controller.dart';
+import 'package:crafty_bay/features/home/ui/controllers/slider_list_controller.dart';
 import 'package:crafty_bay/features/home/ui/controllers/special_product_list_controller.dart';
 import 'package:crafty_bay/features/home/ui/screens/home_screen.dart';
 import 'package:crafty_bay/features/wishlist/ui/screens/wish_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../home/ui/controllers/home_banner_list_controller.dart';
 import '../controllers/category_list_controller.dart';
 
 class MainBottomNavScreen extends StatefulWidget {
@@ -22,8 +21,6 @@ class MainBottomNavScreen extends StatefulWidget {
 }
 
 class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
-  final HomeBannerListController _homeBannerListController =
-      Get.find<HomeBannerListController>();
 
   final List<Widget> _screens = [
     const HomeScreen(),
@@ -35,7 +32,7 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
   @override
   void initState() {
     super.initState();
-    _homeBannerListController.getHomeBannerList();
+    Get.find<SliderListController>().getSliders();
     Get.find<CategoryListController>().getCategoryList();
     Get.find<PopularProductListController>().getProductList();
     Get.find<SpecialProductListController>().getProductList();
