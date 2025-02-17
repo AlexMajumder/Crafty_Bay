@@ -1,3 +1,4 @@
+import 'package:crafty_bay/features/common/data/models/category/category_pagination_model.dart';
 import 'package:crafty_bay/features/common/data/models/category_model.dart';
 import 'package:crafty_bay/features/product/ui/screens/product_list_screen.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +10,14 @@ class CategoryItemWidget extends StatelessWidget {
     super.key,
     required this.categoryModel,
   });
-  final CategoryModel categoryModel;
+  final CategoryItemModel categoryModel;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Get.toNamed(ProductListScreen.name, arguments: {
-          'categoryName':categoryModel.categoryName ?? '',
-          'categoryId':categoryModel.id!
+          'categoryName':categoryModel.title ?? '',
+          'categoryId':categoryModel.sId!
         });
       },
       child: Column(
@@ -28,14 +29,14 @@ class CategoryItemWidget extends StatelessWidget {
                 color: AppColors.themeColor.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(8)),
             child: Image(
-              image: NetworkImage(categoryModel.categoryImg ?? ''),
+              image: NetworkImage(categoryModel.icon ?? ''),
               width: 40,
               height: 40,
               fit: BoxFit.scaleDown,
             ),
           ),
           Text(
-            categoryModel.categoryName ?? '',
+            categoryModel.title ?? '',
             style: const TextStyle(
                 color: AppColors.themeColor,
                 fontSize: 16,

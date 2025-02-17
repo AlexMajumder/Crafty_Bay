@@ -33,10 +33,10 @@ class NetworkCaller {
       }
 
       if(queryParams != null){
-        url += '?';
+        url+= '?';
       for(String param in queryParams.keys){
 
-        url += '$param = ${queryParams[param]}&';
+        url+='$param=${queryParams[param]}&';
 
       }}
       Uri uri = Uri.parse(url);

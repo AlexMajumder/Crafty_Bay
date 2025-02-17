@@ -14,7 +14,26 @@ class CategoryListScreen extends StatefulWidget {
   State<CategoryListScreen> createState() => _CategoryListScreenState();
 }
 
+
 class _CategoryListScreenState extends State<CategoryListScreen> {
+
+  final CategoryListController _categoryListController = Get.find<CategoryListController>();
+
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController= ScrollController()..addListener(_loadModeData);
+    _categoryListController.getCategoryList();
+  }
+
+  void _loadModeData(){
+ if(_scrollController.position.extentAfter <300){
+   _categoryListController.getCategoryList();
+ }
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -32,9 +51,9 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
           },
           child: GetBuilder<CategoryListController>(
             builder: (controller) {
-              if(controller.inProgress){
+              if(controller.initialInProgress){
                 return GridView.builder(
-                  itemCount: 20,
+                  itemCount: 30,
                   gridDelegate:
                   const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,
                       mainAxisSpacing: 16,crossAxisSpacing: 4),
@@ -46,17 +65,27 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                   },
                 );
               }
-              return GridView.builder(
-                itemCount: controller.categoryList.length,
-                gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,
-                    mainAxisSpacing: 16,crossAxisSpacing: 4),
-                itemBuilder: (context,index){
-          
-                  return  FittedBox(child: CategoryItemWidget(categoryModel: controller.categoryList[index],),
-                  );
-          
-                },
+              return Column(
+                children: [
+                  Expanded(
+                    child: GridView.builder(
+                      controller: _scrollController,
+                      itemCount: controller.categoryList.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4,
+                          mainAxisSpacing: 16,crossAxisSpacing: 4),
+                      itemBuilder: (context,index){
+                    
+                        return  FittedBox(child: CategoryItemWidget(categoryModel: controller.categoryList[index],),
+                        );
+                    
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: controller.inProgress,
+                      child: const LinearProgressIndicator()),
+                ],
               );
             }
           ),
@@ -67,6 +96,12 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
 
   void _onPop(){
     Get.find<MainBottomNavController>().backToHome();
+  }
+
+  @override
+  void dispose() {
+   _scrollController.dispose();
+    super.dispose();
   }
 
 }

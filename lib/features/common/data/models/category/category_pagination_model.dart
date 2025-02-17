@@ -18,8 +18,8 @@ class CategoryPaginationModel {
 class PaginationData {
   List<CategoryItemModel>? results;
   int? total;
-  Null? firstPage;
-  Null? previous;
+  int? firstPage;
+  int? previous;
   int? next;
   int? lastPage;
 
