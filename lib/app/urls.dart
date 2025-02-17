@@ -6,7 +6,7 @@ class Urls{
   static String homeSliderUrl = '$_baseUrl/slides';
   static String readProfile ='$_baseUrl/auth/profile';
   static String bannerListUrl ='$_baseUrl/ListProductSlider';
-  static String categoryListUrl ='$_baseUrl/CategoryList';
+  static String categoryListUrl ='$_baseUrl/categories';
   static String productListByRemarkUrl(String remark) =>'$_baseUrl/ListProductByRemark/$remark';
   static String productListByCategoryUrl(int categoryId) =>'$_baseUrl/ListProductByCategory/$categoryId';
   static String productDetailsByIdUrl(int productDetailsId) =>'$_baseUrl/ProductDetailsById/$productDetailsId';

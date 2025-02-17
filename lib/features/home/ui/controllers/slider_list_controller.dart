@@ -1,5 +1,4 @@
 import 'package:crafty_bay/app/urls.dart';
-import 'package:crafty_bay/features/home/data/models/slider_list_model.dart';
 import 'package:crafty_bay/features/home/data/models/slider_model.dart';
 import 'package:crafty_bay/features/home/data/models/slider_pagination_model.dart';
 import 'package:crafty_bay/services/network_caller/network_caller.dart';

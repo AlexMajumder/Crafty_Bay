@@ -1,8 +1,6 @@
 import 'package:crafty_bay/app/urls.dart';
 import 'package:crafty_bay/features/common/data/models/category_list_model.dart';
 import 'package:crafty_bay/features/common/data/models/category_model.dart';
-import 'package:crafty_bay/features/home/data/models/banner_list_model.dart';
-import 'package:crafty_bay/features/home/data/models/banner_model.dart';
 import 'package:crafty_bay/services/network_caller/network_caller.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +17,7 @@ class CategoryListController extends GetxController {
 
   String? get errorMessage => _errorMessage;
 
-  Future<bool> getCategoryList() async {
+  Future<bool> getCategoryList(int count, int page) async {
     bool isSuccess = false;
 
     _inProgress = true;
