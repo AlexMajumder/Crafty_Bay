@@ -47,7 +47,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
         ),
         body: RefreshIndicator(
           onRefresh: ()async{
-            Get.find<CategoryListController>().categoryList;
+            Get.find<CategoryListController>().refreshCategoryList();
           },
           child: GetBuilder<CategoryListController>(
             builder: (controller) {

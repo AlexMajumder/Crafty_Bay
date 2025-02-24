@@ -40,6 +40,11 @@ class CategoryListController extends GetxController {
     if (response.isSuccess) {
       CategoryPaginationModel paginationModel = CategoryPaginationModel.fromJson(response.responseData);
       _categoryList.addAll(paginationModel.data?.results ?? []);
+
+      if(paginationModel.data?.lastPage != null){
+        _lastPage = paginationModel.data!.lastPage!;
+      }
+
       isSuccess = true;
     } else {
       _errorMessage = response.errorMessage;
@@ -50,4 +55,12 @@ class CategoryListController extends GetxController {
 
     return isSuccess;
   }
+
+  Future<bool> refreshCategoryList()async {
+    _page = 0;
+    _lastPage = null;
+    _categoryList.clear();
+    return getCategoryList();
+  }
+
 }
