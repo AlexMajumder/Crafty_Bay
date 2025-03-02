@@ -91,6 +91,36 @@ class NetworkCaller {
           isSuccess: false, statusCode: -1, errorMessage: e.toString());
     }
   }
+  Future<NetworkResponse> patchRequest(String url, {Map<String, dynamic>? body}) async {
+    try {
+      Uri uri = Uri.parse(url);
+      Map<String,String> headers ={
+        'content-type' :'application/json'
+      };
+      _logRequest(url,headers,body);
+
+      Response response = await post(uri,headers: headers,body: jsonEncode(body));
+
+      _logResponse(url, response.statusCode, response.headers, response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final decodedMessage = jsonDecode(response.body);
+        return NetworkResponse(
+            isSuccess: true,
+            statusCode: response.statusCode,
+            responseData: decodedMessage);
+      } else {
+        final decodedMessage = jsonDecode(response.body);
+        ErrorResponseModel errorResponseModel = ErrorResponseModel.fromJson(decodedMessage);
+        return NetworkResponse(
+            isSuccess: false, statusCode: response.statusCode,errorMessage:  errorResponseModel.msg);
+      }
+    } on Exception catch (e) {
+      _logResponse(url, -1, null, '',e.toString());
+      return NetworkResponse(
+          isSuccess: false, statusCode: -1, errorMessage: e.toString());
+    }
+  }
 
 
   void _logRequest(String url, [Map<String,dynamic>? headers,Map<String,dynamic>? body]){
