@@ -124,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             decoration: const InputDecoration(hintText: 'First Name'),
             validator: (String? value){
               if(value?.trim().isEmpty ?? true){
-                return 'Enter Your First Name';
+                return 'Enter Your First Name ';
               }return null;
             },
 
