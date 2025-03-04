@@ -1,17 +1,15 @@
 import 'package:crafty_bay/app/assets_path.dart';
-import 'package:crafty_bay/features/common/data/models/category_model.dart';
 import 'package:crafty_bay/features/common/data/models/product_model.dart';
 import 'package:crafty_bay/features/common/ui/controllers/category_list_controller.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/features/common/ui/widgets/category_item_widget_simmer.dart';
-import 'package:crafty_bay/features/home/ui/controllers/new_product_list_controller.dart';
-import 'package:crafty_bay/features/home/ui/controllers/popular_product_list_controller.dart';
 import 'package:crafty_bay/features/home/ui/controllers/slider_list_controller.dart';
-import 'package:crafty_bay/features/home/ui/controllers/special_product_list_controller.dart';
 import 'package:crafty_bay/features/home/ui/widgets/home_carousel_slider_simmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import '../../../common/data/models/category/category_pagination_model.dart';
+import '../../../product/ui/controllers/product_list_controller.dart';
 import '../widgets/app_bar_icon_button.dart';
 import '../../../common/ui/widgets/category_item_widget.dart';
 import '../widgets/home_carousel_slider.dart';
@@ -84,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     spacing: 16,
-                    //children: _getCategoryList(controller.categoryList),
+                    children: _getCategoryList(controller.categoryList),
                   ),
                 );
               }),
@@ -98,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 8,
               ),
-              GetBuilder<PopularProductListController>(
+              GetBuilder<ProductListController>(
                 builder: (controller) {
                   if(controller.inProgress){
                     return SingleChildScrollView(
@@ -128,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 8,
               ),
-              GetBuilder<SpecialProductListController>(
+              GetBuilder<ProductListController>(
                 builder: (controller) {
                   if(controller.inProgress){
                     return SingleChildScrollView(
@@ -158,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 8,
               ),
-              GetBuilder<NewProductListController>(
+              GetBuilder<ProductListController>(
                 builder: (controller) {
                   if(controller.inProgress){
                     return SingleChildScrollView(
@@ -185,13 +183,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  List<Widget> _getCategoryList(List<CategoryModel> categoryModels) {
+  List<Widget> _getCategoryList(List<CategoryItemModel> categoryModels) {
     List<Widget> categoryList = [];
-    // for (int i = 0; i < categoryModels.length; i++) {
-    //   categoryList.add(CategoryItemWidget(
-    //     categoryModel: categoryModels[i],
-    //   ));
-    // }
+    for (int i = 0; i < categoryModels.length; i++) {
+      categoryList.add(
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: CategoryItemWidget(categoryModel:  categoryModels[i]),
+        ),
+      );
+    }
     return categoryList;
   }
 
@@ -206,12 +207,18 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _getProductList(List<ProductModel> productList) {
     List<Widget> list = [];
     for (int i = 0; i < productList.length; i++) {
-      list.add( ProductItemWidget(
-        productModel: productList[i],
-      ));
+      list.add(
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: ProductItemWidget(
+            productModel: productList[i],
+          ),
+        ),
+      );
     }
     return list;
   }
+
 
   AppBar _buildAppBar() {
     return AppBar(

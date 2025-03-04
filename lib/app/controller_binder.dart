@@ -1,7 +1,6 @@
 import 'package:crafty_bay/features/auth/ui/controller/sign_in_controller.dart';
 import 'package:crafty_bay/features/common/ui/controllers/category_list_controller.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_controller.dart';
-import 'package:crafty_bay/features/common/ui/controllers/product_list_controller.dart';
 import 'package:crafty_bay/features/home/ui/controllers/new_product_list_controller.dart';
 import 'package:crafty_bay/features/home/ui/controllers/popular_product_list_controller.dart';
 import 'package:crafty_bay/features/home/ui/controllers/slider_list_controller.dart';
@@ -12,6 +11,8 @@ import 'package:get/get.dart';
 import '../features/auth/ui/controller/otp_verification_controller.dart';
 import '../features/auth/ui/controller/sign_up_controller.dart';
 import '../features/common/ui/controllers/auth_controller.dart';
+import '../features/product/ui/controllers/product_list_controller.dart';
+import '../features/product/ui/controllers/product_list_controller_by_category.dart';
 
 class ControllerBinder extends Bindings{
   @override
@@ -29,6 +30,8 @@ class ControllerBinder extends Bindings{
    Get.put(NewProductListController());
    Get.put(ProductListController());
    Get.put(ProductDetailsController());
+   Get.put(ProductListController());
+   Get.put(ProductListControllerCategory());
   }
 
 }
