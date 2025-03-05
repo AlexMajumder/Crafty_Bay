@@ -1,7 +1,6 @@
 import 'package:crafty_bay/features/common/data/models/product_model.dart';
 import 'package:crafty_bay/features/product/ui/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../../../app/app_color.dart';
 class ProductItemWidget extends StatelessWidget {
   const ProductItemWidget({
@@ -14,7 +13,7 @@ class ProductItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Get.toNamed(ProductDetailsScreen.name , arguments: productModel.id);
+        Navigator.pushNamed(context, ProductDetailsScreen.name, arguments: {'productId': productModel.sId},);
       },
       child: SizedBox(
         width: 140,
@@ -30,7 +29,7 @@ class ProductItemWidget extends StatelessWidget {
                         topLeft: Radius.circular(16),
                         topRight: Radius.circular(16))),
                 child: Image.network(
-                 productModel.image ?? '',
+                 productModel.brand?.icon ?? '',
                   width: 140,
                   height: 90,
                   fit: BoxFit.scaleDown,
@@ -55,7 +54,7 @@ class ProductItemWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '\$${productModel.price}',
+                          '\$${productModel.currentPrice}',
                           style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               color: AppColors.themeColor),
@@ -68,7 +67,7 @@ class ProductItemWidget extends StatelessWidget {
                               size: 18,
                             ),
                             Text(
-                              '${productModel.star ?? '0.0'}',
+                              '${productModel.quantity ?? '0.0'}',
                               style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.themeColor),

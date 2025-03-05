@@ -1,23 +1,32 @@
 import 'package:crafty_bay/features/common/data/models/product_model.dart';
 
+class ProductListDataModel {
+  List<ProductModel>? results;
+  int? total;
+  Null? firstPage;
+  Null? previous;
+  int? next;
+  int? lastPage;
 
-class ProductListModel {
-  String? msg;
-  List<ProductModel>? productList;
+  ProductListDataModel(
+      {this.results,
+      this.total,
+      this.firstPage,
+      this.previous,
+      this.next,
+      this.lastPage});
 
-  ProductListModel({this.msg, this.productList});
-
-  ProductListModel.fromJson(Map<String, dynamic> json) {
-    msg = json['msg'];
-    if (json['data'] != null) {
-      productList = <ProductModel>[];
-      json['data'].forEach((v) {
-        productList!.add(ProductModel.fromJson(v));
+  ProductListDataModel.fromJson(Map<String, dynamic> json) {
+    if (json['results'] != null) {
+      results = <ProductModel>[];
+      json['results'].forEach((v) {
+        results!.add(ProductModel.fromJson(v));
       });
     }
+    total = json['total'];
+    firstPage = json['first_page'];
+    previous = json['previous'];
+    next = json['next'];
+    lastPage = json['last_page'];
   }
-
 }
-
-
-

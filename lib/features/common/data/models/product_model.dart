@@ -1,60 +1,79 @@
-import 'brand_model.dart';
-import 'category_model.dart';
-
 class ProductModel {
-  int? id;
+  String? sId;
   String? title;
-  String? shortDes;
-  String? price;
-  int? discount;
-  String? discountPrice;
-  String? image;
-  int? stock;
-  int? star;
-  String? remark;
-  int? categoryId;
-  int? brandId;
+  List<Categories>? categories;
+  String? slug;
+  Null metaDescription;
+  String? description;
+  int? regularPrice;
+  int? currentPrice;
+  int? quantity;
   String? createdAt;
   String? updatedAt;
-  BrandModel? brand;
-  CategoryModel? category;
+  bool? inCart;
+  bool? inWishlist;
+  Categories? brand;
 
   ProductModel(
-      {this.id,
-        this.title,
-        this.shortDes,
-        this.price,
-        this.discount,
-        this.discountPrice,
-        this.image,
-        this.stock,
-        this.star,
-        this.remark,
-        this.categoryId,
-        this.brandId,
-        this.createdAt,
-        this.updatedAt,
-        this.brand,
-        this.category});
+      {this.sId,
+      this.title,
+      this.categories,
+      this.slug,
+      this.metaDescription,
+      this.description,
+      this.regularPrice,
+      this.currentPrice,
+      this.quantity,
+      this.createdAt,
+      this.updatedAt,
+      this.inCart,
+      this.inWishlist,
+      this.brand});
 
   ProductModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    sId = json['_id'];
     title = json['title'];
-    shortDes = json['short_des'];
-    price = json['price'];
-    discount = json['discount'];
-    discountPrice = json['discount_price'];
-    image = json['image'];
-    stock = json['stock'];
-    star = json['star'];
-    remark = json['remark'];
-    categoryId = json['category_id'];
-    brandId = json['brand_id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    brand = json['brand'] != null ? BrandModel.fromJson(json['brand']) : null;
-    category = json['category'] != null
-        ?  CategoryModel.fromJson(json['category'])
-        : null;
+    if (json['categories'] != null) {
+      categories = <Categories>[];
+      json['categories'].forEach((v) {
+        categories!.add(Categories.fromJson(v));
+      });
+    }
+    slug = json['slug'];
+    metaDescription = json['meta_description'];
+    description = json['description'];
+    regularPrice = json['regular_price'];
+    currentPrice = json['current_price'];
+    quantity = json['quantity'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    inCart = json['in_cart'];
+    inWishlist = json['in_wishlist'];
+    brand = json['brand'] != null ? Categories.fromJson(json['brand']) : null;
+  }
+}
+
+class Categories {
+  String? sId;
+  String? title;
+  String? slug;
+  String? icon;
+
+  Categories({this.sId, this.title, this.slug, this.icon});
+
+  Categories.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    title = json['title'];
+    slug = json['slug'];
+    icon = json['icon'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['title'] = title;
+    data['slug'] = slug;
+    data['icon'] = icon;
+    return data;
   }
 }

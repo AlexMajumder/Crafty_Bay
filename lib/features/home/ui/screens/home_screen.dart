@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../../common/data/models/category/category_pagination_model.dart';
 import '../../../product/ui/controllers/product_list_controller.dart';
+import '../../../profile/ui/screens/profile_screen.dart';
 import '../widgets/app_bar_icon_button.dart';
 import '../../../common/ui/widgets/category_item_widget.dart';
 import '../widgets/home_carousel_slider.dart';
@@ -219,14 +220,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return list;
   }
 
-
   AppBar _buildAppBar() {
     return AppBar(
       title: SvgPicture.asset(AssetsPath.navBarAppLogoSvg),
       actions: [
         AppBerIconButton(
           icon: Icons.person_outline,
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, ProfileScreen.name);
+          },
         ),
         const SizedBox(
           width: 6,

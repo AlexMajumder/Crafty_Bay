@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:crafty_bay/features/common/data/models/error_response_model.dart';
 import 'package:http/http.dart';
@@ -61,12 +62,16 @@ class NetworkCaller {
     }
   }
 
-  Future<NetworkResponse> postRequest(String url, {Map<String, dynamic>? body}) async {
+  Future<NetworkResponse> postRequest(String url, {Map<String, dynamic>? body, String? accessToken}) async {
     try {
       Uri uri = Uri.parse(url);
       Map<String,String> headers ={
         'content-type' :'application/json'
       };
+
+      if(accessToken != null){
+        headers['token'] = accessToken;
+      }
       _logRequest(url,headers,body);
 
       Response response = await post(uri,headers: headers,body: jsonEncode(body));
@@ -119,6 +124,52 @@ class NetworkCaller {
       _logResponse(url, -1, null, '',e.toString());
       return NetworkResponse(
           isSuccess: false, statusCode: -1, errorMessage: e.toString());
+    }
+  }
+
+
+
+
+
+  Future<NetworkResponse> delRequest(String url, {String? accessToken}) async {
+    try {
+      Map<String, String> headers = {'content-type': 'application/json'};
+      if (accessToken != null) {
+        headers['token'] = accessToken;
+      }
+
+      _logRequest(url);
+      Uri uri = Uri.parse(url);
+      Response response = await delete(uri, headers: headers);
+
+      _logResponse(url, response.statusCode, response.headers, response.body);
+
+      if (response.statusCode == 200) {
+        return NetworkResponse(
+          isSuccess: true,
+          statusCode: response.statusCode,
+          responseData: jsonDecode(response.body),
+        );
+      } else {
+        ErrorResponseModel errorResponseModel = ErrorResponseModel.fromJson(jsonDecode(response.body));
+        return NetworkResponse(
+          isSuccess: false,
+          statusCode: response.statusCode,
+          errorMessage: errorResponseModel.msg,
+        );
+      }
+    } on SocketException {
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: "No Internet Connection",
+      );
+    } catch (e) {
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 

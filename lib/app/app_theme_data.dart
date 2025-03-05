@@ -2,7 +2,6 @@ import 'package:crafty_bay/app/app_color.dart';
 import 'package:flutter/material.dart';
 
 class AppThemeData{
-
  static ThemeData get lightThemeData{
     return ThemeData(
       colorSchemeSeed: AppColors.themeColor,
@@ -56,6 +55,7 @@ class AppThemeData{
         ),
       ),
 
+
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.themeColor,
@@ -73,6 +73,33 @@ class AppThemeData{
      ),
      //scaffoldBackgroundColor: Colors.grey,
      brightness: Brightness.dark,
+   );
+ }
+
+ static TextFormField textFormField(String hint, int maxLine,TextEditingController controller,String? Function(String?) validator,TextInputType? keyboardType,{int? maxLength}) {
+   return TextFormField(
+     controller: controller,
+     keyboardType: keyboardType,
+     maxLines: maxLine,
+     maxLength: maxLength,
+     validator: validator,
+     autovalidateMode: AutovalidateMode.onUserInteraction,
+     decoration: InputDecoration(
+       hintText: hint,
+       hintStyle: const TextStyle(color: Colors.grey),
+       border: OutlineInputBorder(
+         borderRadius: BorderRadius.circular(10.0),
+       ),
+       focusedBorder: OutlineInputBorder(
+         borderRadius: BorderRadius.circular(10.0),
+         borderSide: const BorderSide(color: AppColors.themeColor, width: 2),
+       ),
+       enabledBorder: OutlineInputBorder(
+         borderRadius: BorderRadius.circular(10.0),
+         borderSide: const BorderSide(color: AppColors.themeColor, width: 1),
+       ),
+       contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+     ),
    );
  }
 

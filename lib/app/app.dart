@@ -33,7 +33,9 @@ class CraftyBay extends StatelessWidget {
           widget = const SignInScreen();
         } else if (setting.name == OtpVerificationScreen.name) {
           String email = setting.arguments as String;
-          widget = OtpVerificationScreen(email: email,);
+          widget = OtpVerificationScreen(
+            email: email,
+          );
         } else if (setting.name == SignUpScreen.name) {
           widget = const SignUpScreen();
         } else if (setting.name == MainBottomNavScreen.name) {
@@ -41,21 +43,21 @@ class CraftyBay extends StatelessWidget {
         } else if (setting.name == CategoryListScreen.name) {
           widget = const CategoryListScreen();
         } else if (setting.name == ProductListScreen.name) {
-          Map<String,dynamic> args = setting.arguments as Map<String,dynamic>;
+          Map<String, dynamic> args = setting.arguments as Map<String, dynamic>;
           widget = ProductListScreen(
-            categoryName: args['categoryName'], categoryId: args['categoryId'],
+            categoryName: args['categoryName'],
+            categoryId: args['categoryId'],
           );
-        }else if (setting.name == ProductDetailsScreen.name) {
-          int productId = setting.arguments as int;
-          widget = ProductDetailsScreen(
-            productId: productId,
-          );
-        }else if (setting.name == ReviewScreen.name) {
-          int productId = setting.arguments as int;
+        } else if (setting.name == ProductDetailsScreen.name) {
+          final arguments = setting.arguments as Map<String, dynamic>;
+          String productId = arguments['productId'] as String;
+          widget = ProductDetailsScreen(productId: productId);
+        } else if (setting.name == ReviewScreen.name) {
+          final arg = setting.arguments as Map<String, dynamic>;
           widget = ReviewScreen(
-            productId: productId,
+            productId: arg['productId'],
           );
-        }else if (setting.name == CreateReviewScreen.name) {
+        } else if (setting.name == CreateReviewScreen.name) {
           int productId = setting.arguments as int;
           widget = CreateReviewScreen(
             productId: productId,

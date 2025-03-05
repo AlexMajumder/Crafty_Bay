@@ -1,11 +1,14 @@
-import 'package:crafty_bay/app/app_color.dart';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../../app/app_color.dart';
+import '../../../cart/data/model/cart_list_model.dart';
+import '../../../cart/ui/controller/cart_list_controller.dart';
 
 class ProductQuantityIncDecButton extends StatefulWidget {
-  const ProductQuantityIncDecButton({super.key, required this.onChange});
-
-
-  final Function(int) onChange;
+  final CartModel cartModel;
+  const ProductQuantityIncDecButton({super.key, required this.cartModel});
 
   @override
   State<ProductQuantityIncDecButton> createState() =>
@@ -14,55 +17,83 @@ class ProductQuantityIncDecButton extends StatefulWidget {
 
 class _ProductQuantityIncDecButtonState
     extends State<ProductQuantityIncDecButton> {
-  int _count = 1;
+  late bool isRemoveButtonDisabled;
+  late bool isAddButtonDisabled;
+
+  @override
+  void initState() {
+    super.initState();
+    isRemoveButtonDisabled = widget.cartModel.quantity == 1;
+    isAddButtonDisabled = widget.cartModel.quantity == 19;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      spacing: 8,
-      children: [
-        _buildIconButton(
-            icon: Icons.remove,
-            onTap: () {
-              if (_count > 1) {
-                _count--;
-                widget.onChange(_count);
-                setState(() {});
-              }
-            }),
-        Text(
-          '$_count',
-          style: const TextStyle(fontSize: 18,fontWeight: FontWeight.w500),
-        ),
-        _buildIconButton(
-            icon: Icons.add,
-            onTap: () {
-              if (_count < 20) {
-                setState(() {
-                  _count++;
-                  widget.onChange(_count);
-                });
-              }
-            }),
-      ],
+    return GetBuilder<CartListController>(
+      builder: (controller) {
+        return Row(
+          children: [
+            incrementDecrementButton(
+              Icons.remove,
+              isRemoveButtonDisabled ? null : onTapRemoveButton,
+              isRemoveButtonDisabled,
+            ),
+            const SizedBox(width: 8),
+            Text('${widget.cartModel.quantity}', style: const TextStyle(fontSize: 18)),
+            const SizedBox(width: 8),
+            incrementDecrementButton(
+              Icons.add,
+              isAddButtonDisabled ? null : onTapAddButton,
+              isAddButtonDisabled,
+            ),
+          ],
+        );
+      },
     );
   }
 
-  Widget _buildIconButton(
-      {required IconData icon, required VoidCallback onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-            color: AppColors.themeColor,
-            borderRadius: BorderRadius.circular(4)),
-        alignment: Alignment.center,
-        child: Icon(
-          icon,
-          color: Colors.white,
-        ),
+  Container incrementDecrementButton(
+      IconData icon, VoidCallback? onTap, bool isButtonDisabled) {
+    return Container(
+      height: 30,
+      width: 30,
+      decoration: BoxDecoration(
+        color: isButtonDisabled ? Colors.grey[300] : AppColors.themeColor,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: IconButton(
+        onPressed: onTap,
+        icon: Icon(icon, color: Colors.white, size: 16),
+        padding: EdgeInsets.zero,
       ),
     );
+  }
+
+  void onTapRemoveButton() {
+    final product = widget.cartModel;
+
+    if (product.quantity! > 1) {
+      Get.find<CartListController>().updateCartQuantity(product.sId!, product.quantity! - 1);
+
+      setState(() {
+        product.quantity = product.quantity! ;
+        isAddButtonDisabled = false;
+        isRemoveButtonDisabled = product.quantity == 1;
+      });
+    }
+  }
+
+  void onTapAddButton() {
+    final product = widget.cartModel;
+
+    if (product.quantity! < 20) {
+      Get.find<CartListController>().updateCartQuantity(product.sId!, product.quantity! +1);
+
+      setState(() {
+        product.quantity = product.quantity!;
+        isRemoveButtonDisabled = false;
+        isAddButtonDisabled = product.quantity == 20;
+      });
+    }
   }
 }
